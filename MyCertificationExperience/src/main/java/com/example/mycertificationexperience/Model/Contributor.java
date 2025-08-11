@@ -1,0 +1,46 @@
+package com.example.mycertificationexperience.Model;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+
+public class Contributor {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @NotEmpty(message = "Username cannot be empty")
+    @Column(nullable = false, unique = true)
+    private String username;
+
+    @Email(message = "Email must be valid")
+    @NotEmpty(message = "Email cannot be empty")
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private Double walletBalance = 50.0;
+
+    @Column(columnDefinition = "TEXT")
+    private String bio;
+
+    @DecimalMin(value = "0.0", inclusive = false, message = "Hourly rate must be greater than 0")
+    @Column(nullable = false)
+    private Double hourlyRate;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+}
